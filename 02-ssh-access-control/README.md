@@ -7,7 +7,7 @@ AWS EC2 환경에서 SSH(22) 포트에 대한 접근 제어를 설정하고, 보
 ## 2. 환경
 
 - Cloud: AWS EC2
-- OS: Amazon Linux
+- OS: Amazon Linux 2
 - Client OS: Windows 10 (PowerShell)
 - Tool: nmap, journalctl
 
@@ -17,7 +17,7 @@ AWS EC2 환경에서 SSH(22) 포트에 대한 접근 제어를 설정하고, 보
 
 - EC2 인스턴스 생성
 - 보안 그룹 인바운드 규칙:
-  - SSH (22) : 허용 (내 IP)
+- SSH (22) : 허용 (내 IP)
 
 ### (2) SSH 포트 상태 확인
 
@@ -32,7 +32,7 @@ nmap -Pn -p 22 <EC2-PUBLIC-IP>
 
 ![img01](images/img01.png)
 
-### SSH 접근 범위 확장 테스트 (위험 설정)
+### (3) SSH 접근 범위 확장 테스트 (위험 설정)
 
 - 보안 그룹에서 SSH(22) 포트를 0.0.0.0/0으로 허용
 - nmap 재검사
@@ -60,7 +60,8 @@ ssh -i <EC2-key>.pem ec2-user@<EC2_PUBLIC_IP>
 sudo journalctl -u sshd
 ```
 - SSH 접속 시도가 서버 내부 로그에 기록됨
-- SSH 인증 로그가 systemd journal에 기록될 수 있어 journalctl을 통해 확인
+- systemd 기반 OS에서는 SSH 인증 로그가 /var/log/auth.log 대신 journalctl에 기록될 수 있음
+- journalctl을 통해 확인
 
 ![img03](images/img03.png)
 
