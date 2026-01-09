@@ -12,7 +12,7 @@ AWS EC2 환경에서 보안 그룹을 활용하여
 - OS: Amazon Linux 2
 - Client OS: Windows 10 (PowerShell)
 - Tool: nmap
-
+ 2 
 ## 3. 수행
 
 ### (1) 초기상태
@@ -35,6 +35,8 @@ EC2 보안 그룹에서 ICMP 요청이 차단되어 있어
 기본 nmap 스캔 시 Host down으로 표시되었으며,
 -Pn 옵션을 사용해 실제 포트 상태를 확인하였다.
 
+![img01](images/img01.png)
+
 ### (3) HTTP 포트 허용 테스트
 
 - 보안 그룹에서 HTTP(80) 포트를 0.0.0.0/0으로 허용 (인바운드 규칙 추가)
@@ -51,6 +53,8 @@ nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
 
 - 열려 있는 서비스가 없기 때문에 80 포트를 열어도 응답할 프로그램이 없음
 
+![img02](images/img02.png)
+
 ### (4) ssh 접속하여 서비스(웹 서버) 띄우기
 
 ```bash
@@ -65,6 +69,11 @@ sudo systemctl start httpd
 ```
 - 웹 서버 설치 및 실행
 
+![img03](images/img03.png)
+![img04](images/img04.png)
+![img05](images/img05.png)
+![img06](images/img06.png)
+
 ### (5) HTTP 포트 허용 재 테스트
 ```bash
 nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
@@ -74,6 +83,8 @@ nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
 22/tcp  open     ssh
 80/tcp  open     http
 ```
+
+![img07](images/img07.png)
 
 ### (6) HTTP 인바운드 규칙 제거
 - 인바운드 규칙 제거 및 nmap 재확인
@@ -85,6 +96,8 @@ nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
 22/tcp  open     ssh
 80/tcp  filtered http
 ```
+
+![img08](images/img08.png)
 
 ### (7) 서버 내 서비스 정리
 ```bash
