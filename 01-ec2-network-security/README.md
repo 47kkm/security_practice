@@ -2,9 +2,7 @@
 
 ## 1. 목적
 
-AWS EC2 환경에서 보안 그룹을 활용하여
-서버 인바운드 규칙 수정을 통해 포트 접근을 제어하고,
-외부에서 nmap 스캔을 통해 실제 포트 노출 상태를 검증한다.
+AWS EC2 환경에서 보안 그룹을 활용하여 서버 인바운드 규칙 수정을 통해 포트 접근을 제어하고, 외부에서 nmap 스캔을 통해 실제 포트 노출 상태를 검증한다.
 
 ## 2. 환경
 
@@ -12,7 +10,7 @@ AWS EC2 환경에서 보안 그룹을 활용하여
 - OS: Amazon Linux 2
 - Client OS: Windows 10 (PowerShell)
 - Tool: nmap
- 2 
+
 ## 3. 수행
 
 ### (1) 초기상태
@@ -31,9 +29,7 @@ nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
 22/tcp  open     ssh
 80/tcp  filtered http
 ```
-EC2 보안 그룹에서 ICMP 요청이 차단되어 있어
-기본 nmap 스캔 시 Host down으로 표시되었으며,
--Pn 옵션을 사용해 실제 포트 상태를 확인하였다.
+- EC2 보안 그룹에서 ICMP 요청이 차단되어 있어 기본 nmap 스캔 시 Host down으로 표시되었으며, -Pn 옵션을 사용해 실제 포트 상태를 확인하였다.
 
 ![img01](images/img01.png)
 
@@ -51,7 +47,10 @@ nmap -Pn -p 22, 80 <EC2-PUBLIC-IP>
 80/tcp  closed   http
 ```
 
-- 열려 있는 서비스가 없기 때문에 80 포트를 열어도 응답할 프로그램이 없음
+- 보안 그룹에서 80 포트를 허용했으나,
+  서버 내부에서 해당 포트를 LISTEN 중인 서비스가 없어
+  외부에서는 closed 상태로 확인됨
+- nmap 결과에서 filtered 상태는 보안 그룹에 의해 패킷이 차단된 상태를 의미하며, closed 는 패킷은 도달했으나 해당 포트를 사용하는 서비스가 존재하지 않는 상태이다.
 
 ![img02](images/img02.png)
 
@@ -111,3 +110,4 @@ sudo systemctl disable httpd
 - 실제 서비스가 실행되지 않으면 포트가 열려 있어도 외부에서 접근할 수 없음을 확인 (closed)
 - nmap을 활용해 외부 관점에서 포트 노출 상태(open/closed/filtered)를 검증
 - 서버 보안 설정과 네트워크 보안을 함께 고려해야 함
+- 불필요한 포트 및 서비스는 제거하여 공격 표면을 최소화해야 함
