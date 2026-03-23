@@ -23,11 +23,13 @@ sudo cp /etc/sshd/sshd_config /etc/sshd/sshd_config.bak
 
 ### (2) sshd_config 설정 편집
 - 설정 편집으로 진입
+
 ![img02](images/img02.png)
 
 - PermitRootLogin no 설정으로 root 직접 접속 허용 여부를 비활성화
 - PasswordAuthentication no 설정으로 비밀번호 로그인 비활성화
 - PubkeyAuthentication yes 설정으로 pem 키 기반 로그인 유지
+
 ![img03](images/img03.png)
 
 ### (3) 설정 문법 체크
@@ -43,16 +45,20 @@ sudo systemctl restart sshd
 
 ### (5) 공격 시나리오 테스트
 - 비밀번호 로그인 시도
+
 ![img07](images/img07.png)
 
 - root 로그인 시도
+
 ![img08](images/img08.png)
 
 ### (6) 로그 확인
 ```bash
 sudo journalctl -u sshd
 ```
+
 ![img09](images/img09.png)
+
 - 로그를 통해 비밀번호 로그인과 root 로그인이 허용되지 않은 것을 확인할 수 있다.
 
 ## 요약
