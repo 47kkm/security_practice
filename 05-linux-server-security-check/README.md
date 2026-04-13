@@ -1,4 +1,4 @@
-# Web Server Security Hardening
+# linux server security check
 
 ## 1. 목적
 
