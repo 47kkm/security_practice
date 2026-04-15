@@ -1,0 +1,35 @@
+# file descriptor
+
+## file descriptor
+
+(1) file descriptor
+- 프로세스가 파일을 다룰 때 사요하는 것으로, 운영체제가 특정 파일에 할당해주는 정수값
+
+(2) 기본 file descriptor
+- `0`: `standard input` 표준 입력 (키보드)
+- `1`: `standard output` 표준 출력 (모니터)
+- `2`: `standard error` 표준 에러 (모니터)
+
+(3) Redirection
+- 명령의 입출력을 파일이나 다른 장치로 보내거나 받을 수 있게 해주는 기능
+- `A > B` - A의 결과를 B로 보냄 (새로 저장)
+- `A >> B` - A의 결과를 기존 B의 데이터에 추가
+- `A < B` - B의 데이터를 A(명령)에 입력 및 실행
+
+(4) &
+- Redirection 기호에 & 가 붙으면 파일 디스크립터 번호를 참조하겠다는 의미이다.
+  - `2>1` - 표준 에러를 1 이라는 파일에 저장
+  - `2>&1` - 표준 에러를 표준 출력이 현재 가리키는 곳으로 보낸다. (ex. 터미널, 파일 등)
+  - `ls>log.txt 2>&1` - 표준 출력을 log.txt 파일에 저장하고, 표준 에러는 표준 출력이 현재 가리키는 곳으로 보낸다. 이때 표준 출력은 log.txt 에 저장되기 때문에 표준 에러도 그에 따라 log.txt 에 함께 저장된다.
+
+(5) !
+- 강제 덮어쓰기
+- `set -o noclobber` - Redirection 연산자로 기존의 파일을 덮어쓰지 않는다.
+  - `command>file.txt` - 명령의 결과를 file.txt 로 저장한다. 이때 `noclobber`옵션이 설정되어 있으면 file.txt 에 저장하지 못한다.
+  - `command>!file.txt` - `noclobber` 옵션에 상관없이 강제로 덮어씌운다.
+
+(4) /dev/null
+- 특정 작업의 출력 내용을 보지 않고 폐기하고 싶을 때 해당 경로로 출력을 보낸다.
+- `2>/dev/null` - 표준 에러를 /dev/null 로 보낸다.
+- `/script.sh>/dev/null 2>&1` - script.sh 의 출력 동작을 /dev/null 로 보내고, 표준 에러는 표준 출력이 현재 가리키는 곳으로 보낸다. 이때 표준 출력은 /dev/null 로 가기 때문에 표준 에러도 그에 따라 /dev/null 로 가게된다. (즉, 로그 없이 조용히 실행!)
+- `find / -user user1 -group group1 -size 33c 2>/dev/null` - 전체 디렉터리에서 소유자가 user1 이고 소유그룹이 group1 인 33byte 크기의 파일을 찾되, 표준 에러는 /dev/null 로 보낸다.
