@@ -29,8 +29,10 @@ $ sudo journalctl -u sshd
 ```
 - ec2 접속한다.
 - journalctl 을 이용하여 sshd 로그를 확인한다.
+
 ![img02](images/img02.png)
 - `Failed Password` 구문을 통해 패스워드를 통한 로그인이 실패했음을 알 수 있다.
+- 동일 IP에서 반복적인 로그인 실패 시도가 발생하였으며, 무차별 대입 공격(Brute Force Attack)의 특징으로 판단할 수 있다.
 
 ### (3) sshd 설정 점검하기
 
@@ -46,7 +48,8 @@ $ sudo journalctl -u sshd
 $ ssh ec2-user@[ip]
 ```
 ![img04](images/img04.png)
-- 패스워드를 이용한 로그인 시도 시 시도 자체가 `denied` 되는 것을 확인할 수 있다.
+- 초기에는 PasswordAuthentication이 활성화되어 있어 로그 상에 "Failed password" 이벤트가 다수 발생하였다.
+- PasswordAuthentication을 비활성화한 후 비밀번호 기반 로그인 시도가 차단되며, 패스워드를 이용한 로그인 시도 시 시도 자체가 `denied` 되는 것을 확인할 수 있다.
 
 ## 요약
 - sshd 설정 중 `PasswordAuthentication` 설정을 통해 무차별 대입 공격에 대비한다.
