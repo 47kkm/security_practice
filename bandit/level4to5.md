@@ -10,16 +10,16 @@
 
 (3) 파일 형식 확인하기
 ```bash
-file <파일명>
+file [파일명]
 ```
 - data 파일 결과
   ```bash
-  file <파일명1>
-  <파일명1>: data
+  file [파일명1]
+  [파일명1]: data
   ```
 
 - ASCII text 파일
   ```bash
-  file <파일명2>
-  <파일명2>: ASCII text
+  file [파일명2]
+  [파일명2]: ASCII text
   ```
