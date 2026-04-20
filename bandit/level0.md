@@ -4,7 +4,7 @@
 
 (1) key 를 이용해 접근하기
 ```bash
-ssh -i <key 파일 경로> <user>@<host>
+ssh -i [key 파일 경로] [user]@[host]
 ```
 - `-i` 옵션을 통해 key 파일로 로그인한다.
   - `key 파일 경로`에 .pem 파일 로컬 경로를 입력한다. 
@@ -15,7 +15,7 @@ ssh -i <key 파일 경로> <user>@<host>
 
 (2) password 를 이용해 접근하기
 ```bash
-ssh <user>@<host>
+ssh [user]@[host]
 ```
 - `host` 서버에 `user`로 로그인한다.
 - 이때 접근 포트는 기본적으로 22번 이다.
@@ -23,8 +23,8 @@ ssh <user>@<host>
 
 (3) 지정된 포트로 password 이용해 접근하기
 ```bash
-ssh -p <지정된 포트> <user>@<host>
+ssh -p [지정된 포트] [user]@[host]
 ``
 - `host` 서버에 `user`로 로그인한다.
-- <지정된 포트> 에 포트를 입력한다.
+- [지정된 포트] 에 포트를 입력한다.
 - 이후 나오는 패스워드 입력 화면에서 패스워드 입력 후 로그인 한다.
