@@ -31,12 +31,15 @@ $ sudo tail -f /var/log/httpd/access_log
 
 ### (2) SQL Injection
 - SQL Injection 형태의 url 을 작성하고, 로그를 분석한다.
+- SQL Injection 공격은 DB query를 변조하여 인증 우회를 시도하거나 데이터를 유출 시킬 수 있는 위험성이 있다.
 
 ```
-http://[ec2 public ip]/?id=a' OR '1'='1'
+http://[ec2 public ip]/?id=a' OR '1'='1
 ```
 ![img02](images/img02.png)
 - 특수문자가 excape 처리된 SQL Injection 형태의 url 이 요청되었음을 로그를 통해 확인할 수 있다.
+- `%27` --> single quote('), %20 --> space( ) 이므로 디코딩 결과 `id=' OR '1'='1`
+- 항상 참이 되는 조건을 만들어 인증 우회를 시도하는 SQL Injection 공격 패턴으로 파악할 수 있다.
 
 cf) Blind SQL Injection
 - 조건문에 대한 DB 의 참거짓 응답을 이용하는 형태의 SQL Injection 이다.
@@ -53,6 +56,7 @@ http://[ec2 public ip]/admin
 
 ### (4) XSS
 - XSS 형태의 url 을 작성하고, 로그를 분석한다.
+- XSS 공격을 통해 세션이나 쿠키, 개인정보 탈취 등의 피해가 발생할 수 있다.
 
 ```
 http://[ec2 public ip]/?q=<script>alert(1)</script>
@@ -77,3 +81,4 @@ cf) Prepared Statement
 - 웹서버에 직접 공격 형태의 url 을 작성하여 접근해보고, 로그를 분석한다.
 - 로그분석을 통해 SQL Inject, XSS, 주요 페이지 접근 시도 등의 공격 형태 url 을 확인한다.
 - 대응 방안을 통해 해당 공격들을 사전 예방할 수 있는 방법을 알 수 있다.
+- 로그 분석으로는 공격 시도 까지 확인할 수 있으나, 공격 성공 여부까지는 확인할 수 없다는 한계가 있다.
